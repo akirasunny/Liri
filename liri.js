@@ -31,16 +31,6 @@ var options = ["Tweet something via my owner's account", "View my owner's tweets
 
 // functions
 
-function capitalize(a) {
-	var temp = a.split(" ");
-	var temp1 = "";
-	for (i = 0; i < temp.length; i++) {
-		temp1 += temp[i].substring(0, 1).toUpperCase() + temp[i].substring(1, ) + " ";
-	}
-	var final = temp1.trim();
-	return final;
-}
-
 function greeting() {
 	var index = Math.floor(Math.random() * greetingwords.length);
 	console.log("\n-------------------------------------------------");
@@ -240,7 +230,7 @@ function moviethis() {
 	]).then(function(input) {
 		request("http://www.omdbapi.com/?t=" + input.movie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 			var resp = JSON.parse(body);
-			if (input.movie === "" || resp.Response === "False") {
+			if (input.movie === "") {
 				request("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 					var res = JSON.parse(body);
 					console.log("\n-------------------------------------------------");
@@ -254,6 +244,7 @@ function moviethis() {
 					console.log("Language: " + res.Language);
 					console.log("Plot: " + res.Plot);
 					console.log("Actors: " + res.Actors);
+					whatelse();
 				})
 			}
 
@@ -269,8 +260,8 @@ function moviethis() {
 				console.log("Language: " + resp.Language);
 				console.log("Plot: " + resp.Plot);
 				console.log("Actors: " + resp.Actors);
+				whatelse();
 			}
-			whatelse();
 		})
 	})
 }
@@ -338,6 +329,7 @@ function dowhat() {
 function randomgreet() {
 	var index = Math.floor(Math.random() * greetingwords.length);
 	console.log("\n-------------------------------------------------");
+	console.log("\n** Lines below are selected randomly from my greeting database **")
 	console.log("\n" + greetingwords[index]);
 	whatelse();
 }
