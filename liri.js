@@ -21,12 +21,13 @@ var request = require("request");
 var fs = require("fs");
 
 var greetingwords = ["Hey, this is Liri, your personal assistant.\nI am actually a node.js version of siri, which sounds funny, but that's not my fault.",
-	"Today is a nice day! Hope I Liri can make today even better.",
+	"Liri, your best personal assistant. Hao, Liri's owner, the growing coder.\nToday is a nice day! Hope I Liri can make today even better.",
 	"Hey Paige (I wish that were you, if not, then hey Josh), Hao assigned me Liri to help you grade this assignment.\nHao said this assignment was more difficult than she thought,\nbut I have no idea, at least I look good, right?",
 	"This is Liri, your personal assistant.\nThe girl designed me has been exhausted and is having rest, I'll help you instead.",
-	"Hi there, this is Liri, your personal assistant.\nI was supposed to help you according to whatever you'll input to command line,\nbut Hao doesn't love this way. She said this way is not user-friendly, inquirer might be better.\nI agree. Please don't deduct her grade because of this."
+	"Hi there, this is Liri, your personal assistant.\nI was supposed to help you according to whatever you'll input to command line,\nbut Hao doesn't love this way. She said this way is not user-friendly, inquirer might be better.\nI agree. Please don't deduct her grade because of this.",
+	"Good morning/noon/afternoon/evening there, this is Liri, a node.js version of Siri.\nUsing slash is not because of my owner's laziness,\njust because my potential users can come from anywhere of the world."
 	];
-var options = ["Tweet something via my account", "View my tweets", "Spotify a song", "Movie this", "Do what it says", "Quit"];
+var options = ["Tweet something via my owner's account", "View my owner's tweets", "Spotify a song", "Movie this", "Do what it says", "See how many greetings do I have", "Quit"];
 
 // functions
 
@@ -76,6 +77,10 @@ function greeting() {
 					break;
 
 				case options[5]:
+					randomgreet();
+					break;
+
+				case options[6]:
 					console.log("\n-------------------------------------------------");
 					console.log("\nThanks for using. See you next time.");
 					console.log("\n-------------------------------------------------");
@@ -120,6 +125,10 @@ function whatelse() {
 					break;
 
 				case options[5]:
+					randomgreet();
+					break;
+
+				case options[6]:
 					console.log("\n-------------------------------------------------");
 					console.log("\nThanks for using. See you next time.");
 					console.log("\n-------------------------------------------------");
@@ -136,7 +145,7 @@ function tweet() {
 	inquirer.prompt([
 		{
 			type: "input",
-			message: "What do you want to send to Hao's twitter?\n",
+			message: "What do you want to tweet via Hao's account?\nFor your own safety, please don't put anything strange, or she will kick you..I promise.\n",
 			name: "post"
 		}
 	]).then(function(res) {
@@ -147,7 +156,6 @@ function tweet() {
 			console.log("\n-------------------------------------------------\n");
 			console.log("Tweet \"" + res.post + "\" has been posted by @Huaiyin_xie already!");
 			console.log("Go to https://twitter.com/Huaiyin_xie or choose \"View my tweets\" below to check it.\n")
-			console.log("-------------------------------------------------\n");
 			whatelse();
 		})
 	})
@@ -325,6 +333,13 @@ function dowhat() {
 				break;
 		}
 	})
+}
+
+function randomgreet() {
+	var index = Math.floor(Math.random() * greetingwords.length);
+	console.log("\n-------------------------------------------------");
+	console.log("\n" + greetingwords[index]);
+	whatelse();
 }
 
 // main
