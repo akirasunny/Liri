@@ -139,13 +139,13 @@ function tweet() {
 			name: "post"
 		}
 	]).then(function(res) {
-		keys.post('statuses/update', {status: res.post}, function(error, tweets, response) {
+		keys.post('statuses/update', {status: res.post + "    ---sent from Liri"}, function(error, tweets, response) {
 			if (error) {
 				console.log(error);
 			}
 			console.log("\n-------------------------------------------------\n");
 			console.log("Tweet \"" + res.post + "\" has been posted by @Huaiyin_xie already!");
-			console.log("Go to https://twitter.com/Huaiyin_xie or choose \"View my tweets\" below to check it.\n")
+			console.log("Go to https://twitter.com/Huaiyin_xie or choose \"View my owner\'s tweets\" below to check it.\n")
 			whatelse();
 		})
 	})
