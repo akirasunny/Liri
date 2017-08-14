@@ -1,3 +1,6 @@
+// This file contains over 300 lines of codes.
+// for your convenience, please collapse all functions at first then expand one at a time.
+
 // globlas
 
 var keys1 = require("./keys.js").twitter;
@@ -19,6 +22,7 @@ var spotify = new spotify1 ({
 var inquirer = require("inquirer");
 var request = require("request");
 var fs = require("fs");
+var moment = require("moment");
 
 var greetingwords = ["Hey, this is Liri, your personal assistant.\nI am actually a node.js version of siri, which sounds funny, but that's not my fault.",
 	"Liri, your best personal assistant. Hao, Liri's owner, the growing coder.\nToday is a nice day! Hope I Liri can make today even better.",
@@ -31,6 +35,7 @@ var options = ["Tweet something via my owner's account", "View my owner's tweets
 
 // functions
 
+// user interfaces
 function greeting() {
 	var index = Math.floor(Math.random() * greetingwords.length);
 	console.log("\n-------------------------------------------------");
@@ -81,7 +86,7 @@ function greeting() {
 					console.log("Oops, that is beyound my power.");
 			}
 		})
-}
+};
 
 function whatelse() {
 	console.log("\n-------------------------------------------------\n");
@@ -129,8 +134,11 @@ function whatelse() {
 					console.log("Oops, that is beyound my power.");
 			}
 		})
-}
+};
 
+// features
+
+// tweet in terminal
 function tweet() {
 	inquirer.prompt([
 		{
@@ -149,32 +157,42 @@ function tweet() {
 			whatelse();
 		})
 	})
-}
+};
 
+// print my tweets
 function tweets() {
 	keys.get("statuses/user_timeline", {screen_name: 'huaiyin_xie'}, function(error, tweets, response) {
 		if (!error) {
 			for (i = tweets.length - 1; i >= tweets.length - 21; i--){
 				if (i < 0) {
-					break;
+					break; // in case that the number of this account's tweets is less than 20
 				}
+				// use moment.js to standardize the creat_at passed by api. It is originally 7 hours later than PST for no reason
+				// and moment.js here is not as smart as in the browser, so I have to pass a formated time to moment() function
+				// lines below and before if statement are for this purpose
 
+				var month = moment().format("YYYYMM");
+				var a = tweets[i].created_at.substring(0, tweets[i].created_at.indexOf("+")).trim();
+				var array = a.split(" ");
+				var format = month.substring(0, 4) + "-" + month.substring(4) + "-" + array[2] + "T" + array[3] + ".000";
+				var realtime = moment(format).subtract(7, "hours").format("MMMM Do YYYY, HH:mm:ss");
+			
 				if (tweets[i].retweeted) {
 					console.log("\n-------------------------------------------------");
-					console.log(tweets[i].created_at.substring(0, tweets[i].created_at.indexOf("+")) + "2017");
+					console.log("\n" + realtime);
 					console.log("**This tweet is a retweeted one.**\n");
 					console.log(tweets[i].text);
 				}
 				else {
 					console.log("\n-------------------------------------------------");
-					console.log("\n" + tweets[i].created_at.substring(0, tweets[i].created_at.indexOf("+")) + "2017");
+					console.log("\n" + realtime);
 					console.log(tweets[i].text + "\n");
 				}
 			}
 		}
 		whatelse();
 	})
-}
+};
 
 function spotifyasong() {
 	inquirer.prompt([
@@ -218,7 +236,7 @@ function spotifyasong() {
 			whatelse();
 		})
 	})
-}
+};
 
 function moviethis() {
 	inquirer.prompt([
@@ -264,7 +282,7 @@ function moviethis() {
 			}
 		})
 	})
-}
+};
 
 function dowhat() {
 	fs.readFile("random.txt", "utf8", function(err, text) {
@@ -324,15 +342,16 @@ function dowhat() {
 				break;
 		}
 	})
-}
+};
 
+// print a greeting randomly
 function randomgreet() {
 	var index = Math.floor(Math.random() * greetingwords.length);
 	console.log("\n-------------------------------------------------");
 	console.log("\n** Lines below are selected randomly from my greeting database **")
 	console.log("\n" + greetingwords[index]);
 	whatelse();
-}
+};
 
 // main
 greeting();
