@@ -41,6 +41,11 @@ function greeting() {
 	console.log("\n-------------------------------------------------");
 	console.log("\n" + greetingwords[index]);
 	console.log("\n-------------------------------------------------\n");
+	fs.appendFile("log.txt", moment().format("MM/DD/YYYY HH:mm:ss") + " " + "Liri's launch" + "\n", function(err) {
+		if (err) {
+			return console.log(err);
+		}
+	});
 	// console.log("\n" + "What can I do for you today?\n");
 	inquirer.prompt([
 		{
@@ -82,11 +87,10 @@ function greeting() {
 					break;
 
 				case options[6]:
-					logtxt(options[6]);
 					console.log("\n-------------------------------------------------");
 					console.log("\nThanks for using. See you next time.");
 					console.log("\n-------------------------------------------------");
-					process.exit();
+					logtxt(options[6]);
 					break;
 
 				default:
@@ -137,11 +141,10 @@ function whatelse() {
 					break;
 
 				case options[6]:
-					logtxt(options[6]);
 					console.log("\n-------------------------------------------------");
 					console.log("\nThanks for using. See you next time.");
 					console.log("\n-------------------------------------------------");
-					process.exit();
+					logtxt(options[6]);
 					break;
 
 				default:
@@ -375,6 +378,9 @@ function logtxt(option) {
 	fs.appendFile("log.txt", moment().format("MM/DD/YYYY HH:mm:ss") + " " + option + "\n", function(err) {
 		if (err) {
 			return console.log(err);
+		}
+		if (option === option[6]) {
+			process.exit();
 		}
 	})
 }
