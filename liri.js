@@ -31,7 +31,7 @@ var greetingwords = ["Hey, this is Liri, your personal assistant.\nI am actually
 	"Hi there, this is Liri, your personal assistant.\nI was supposed to help you according to whatever you'll input to command line,\nbut Hao doesn't love this way. She said this way is not user-friendly, inquirer might be better.\nI agree. Please don't deduct her grade because of this.",
 	"Good morning/noon/afternoon/evening there, this is Liri, a node.js version of Siri.\nUsing slash is not because of my owner's laziness,\njust because my potential users can come from anywhere of the world."
 	];
-var options = ["Tweet something via my owner's account", "View my owner's tweets", "Spotify a song", "Movie this", "Do what it says", "See how many greetings do I have", "Quit"];
+var options = ["Tweet something via my owner's account", "View my owner's tweets", "Spotify a song", "Movie this", "Do what it says", "See how many greetings I have", "Quit"];
 
 // functions
 
@@ -40,7 +40,7 @@ function greeting() {
 	var index = Math.floor(Math.random() * greetingwords.length);
 	console.log("\n-------------------------------------------------");
 	console.log("\n" + greetingwords[index]);
-	console.log("\n-------------------------------------------------");
+	console.log("\n-------------------------------------------------\n");
 	// console.log("\n" + "What can I do for you today?\n");
 	inquirer.prompt([
 		{
@@ -53,29 +53,36 @@ function greeting() {
 			switch(res.choice) {
 				case options[0]:
 					tweet();
+					logtxt(options[0]);
 					break;
 
 				case options[1]:
 					tweets();
+					logtxt(options[1]);
 					break;
 
 				case options[2]:
 					spotifyasong();
+					logtxt(options[2]);
 					break;
 
 				case options[3]:
 					moviethis();
+					logtxt(options[3]);
 					break;
 
 				case options[4]:
 					dowhat();
+					logtxt(options[4]);
 					break;
 
 				case options[5]:
 					randomgreet();
+					logtxt(options[5]);
 					break;
 
 				case options[6]:
+					logtxt(options[6]);
 					console.log("\n-------------------------------------------------");
 					console.log("\nThanks for using. See you next time.");
 					console.log("\n-------------------------------------------------");
@@ -101,29 +108,36 @@ function whatelse() {
 			switch(res.choice) {
 				case options[0]:
 					tweet();
+					logtxt(options[0]);
 					break;
 
 				case options[1]:
 					tweets();
+					logtxt(options[1]);
 					break;
 
 				case options[2]:
 					spotifyasong();
+					logtxt(options[2]);
 					break;
 
 				case options[3]:
 					moviethis();
+					logtxt(options[3]);
 					break;
 
 				case options[4]:
 					dowhat();
+					logtxt(options[4]);
 					break;
 
 				case options[5]:
 					randomgreet();
+					logtxt(options[5]);
 					break;
 
 				case options[6]:
+					logtxt(options[6]);
 					console.log("\n-------------------------------------------------");
 					console.log("\nThanks for using. See you next time.");
 					console.log("\n-------------------------------------------------");
@@ -143,7 +157,7 @@ function tweet() {
 	inquirer.prompt([
 		{
 			type: "input",
-			message: "What do you want to tweet via Hao's account?\nFor your own safety, please don't put anything strange, or she will kick you..I promise.\n",
+			message: "What do you want to tweet via Hao's account?\nFor your own safety, please don't put anything strange, or she will kick you..I promise.\nIf you chose this feature by mistake, just simply press \"Ctrl + C\" and run me again.\n",
 			name: "post"
 		}
 	]).then(function(res) {
@@ -202,40 +216,43 @@ function spotifyasong() {
 			name: "song"
 		}
 	]).then(function(res) {
-		spotify.search({type: "track", query: res.song}, function(err, data) {
-			if (err) {
-				return console.log(err);
-			}
-			
-			if (data.tracks.items[0] === undefined) {
+			if (res.song === "") {
 				spotify.search({type: "track", query: "The Sign"}, function(err, data) {
 					console.log("\n-------------------------------------------------\n");
-					console.log("I've done my best, but found nothing..wish you can enjoy this song.")
+					console.log("Dear user, though you did not input anything valid, I, smart Liri, still have recommendation for you.\nActually neither I or my owner Hao have seen it before, this is her instructor's mandatory recommendation.\nHao said if one day she becomes an insturctor,\nshe'll use the same way to recommend whatever she likes to students.");
 					console.log("\n-------------------------------------------------\n");
 					console.log("Artist(s): " + data.tracks.items[5].artists[0].name);
 					console.log("Title: " + data.tracks.items[5].name);
 					console.log("Preview link: " + data.tracks.items[5].preview_url);
 					console.log("Album: " + data.tracks.items[5].album.name);
+					whatelse();
 				})
 			}
 			else {
-					var random = Math.floor(Math.random() * 20);
-					console.log("\n-------------------------------------------------\n");
-					console.log("Dear user, this is the song you want to spotify.")
-					console.log("\n-------------------------------------------------\n");
-					console.log("Artist(s): " + data.tracks.items[random].artists[0].name);
-					console.log("Title: " + data.tracks.items[random].name);
-					if (data.tracks.items[random].preview_url !== null) {
-						console.log("Preview link: " + data.tracks.items[random].preview_url);
+				spotify.search({type: "track", query: res.song}, function(err, data) {
+					if (data !== null) {
+						var random = Math.floor(Math.random() * 20);
+						console.log("\n-------------------------------------------------\n");
+						console.log("Dear user, this is the song you want to spotify.")
+						console.log("\n-------------------------------------------------\n");
+						console.log("Artist(s): " + data.tracks.items[random].artists[0].name);
+						console.log("Title: " + data.tracks.items[random].name);
+						if (data.tracks.items[random].preview_url !== null) {
+							console.log("Preview link: " + data.tracks.items[random].preview_url);
+						}
+						else {
+							console.log("Preview link: not available");
+						}
+						console.log("Album: " + data.tracks.items[random].album.name);
+						whatelse();
 					}
 					else {
-						console.log("Preview link: not available");
+						console.log("Wait, it looks like this song is beyound the power of spotify...")
+						whatelse();
 					}
-					console.log("Album: " + data.tracks.items[random].album.name);
+				})
 			}
-			whatelse();
 		})
-	})
 };
 
 function moviethis() {
@@ -252,7 +269,7 @@ function moviethis() {
 				request("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 					var res = JSON.parse(body);
 					console.log("\n-------------------------------------------------");
-					console.log("\nDear user, though you did not input anything valid, I, smart Liri, still have recommendation for you.\nActually neither I or my owner Hao have seen it before, this is Clark's mandatory recommendation.\nHao said if one day she becomes an insturctor,\nshe'll use the same way to recommend whatever she likes to students.")
+					console.log("\nDear user, though you did not input anything valid, I, smart Liri, still have recommendation for you.\nActually neither I or my owner Hao have seen it before, this is her instructor's mandatory recommendation.\nHao said if one day she becomes an insturctor,\nshe'll use the same way to recommend whatever she likes to students.")
 					console.log("\n-------------------------------------------------\n");
 					console.log("Title: " + res.Title);
 					console.log("Year: " + res.Year);
@@ -352,6 +369,15 @@ function randomgreet() {
 	console.log("\n" + greetingwords[index]);
 	whatelse();
 };
+
+// bonus
+function logtxt(option) {
+	fs.appendFile("log.txt", moment().format("MM/DD/YYYY HH:mm:ss") + " " + option + "\n", function(err) {
+		if (err) {
+			return console.log(err);
+		}
+	})
+}
 
 // main
 greeting();
