@@ -25,10 +25,10 @@ var fs = require("fs");
 var moment = require("moment");
 
 var greetingwords = ["Hey, this is Liri, your personal assistant.\nI am actually a node.js version of siri, which sounds funny, but that's not my fault.",
-	"Liri, your best personal assistant. Hao, Liri's owner, the growing coder.\nToday is a nice day! Hope I Liri can make today even better.",
-	"Hey Paige (I wish that were you, if not, then hey Josh), Hao assigned me Liri to help you grade this assignment.\nHao said this assignment was more difficult than she thought,\nbut I have no idea, at least I look good, right?",
+	"Liri, your best personal assistant. Sunny, Liri's owner, the growing coder.\nToday is a nice day! Hope I Liri can make today even better.",
+	"Greetings!\nSunny assigned me Liri to assist you.\nShe said this app was more difficult to build than she thought,\nbut I have no idea, at least I look good, right?",
 	"This is Liri, your personal assistant.\nThe girl designed me has been exhausted and is having rest, I'll help you instead.",
-	"Hi there, this is Liri, your personal assistant.\nI was supposed to help you according to whatever you'll input to command line,\nbut Hao doesn't love this way. She said this way is not user-friendly, inquirer might be better.\nI agree. Please don't deduct her grade because of this.",
+	"Hi there, this is Liri, your personal assistant.\nI was supposed to help you according to whatever you'll input to command line,\nbut Sunny doesn't love this way. She said this way is not user-friendly, inquirer might be better.\nI agree. Please don't deduct her grade because of this.",
 	"Good morning/noon/afternoon/evening there, this is Liri, a node.js version of Siri.\nUsing slash is not because of my owner's laziness,\njust because my potential users can come from anywhere of the world."
 	];
 var options = ["Tweet something via my owner's account", "View my owner's tweets", "Spotify a song", "Movie this", "Do what it says", "See how many greetings I have", "Quit"];
@@ -46,7 +46,6 @@ function greeting() {
 			return console.log(err);
 		}
 	});
-	// console.log("\n" + "What can I do for you today?\n");
 	inquirer.prompt([
 		{
 			type: "list",
@@ -160,7 +159,7 @@ function tweet() {
 	inquirer.prompt([
 		{
 			type: "input",
-			message: "What do you want to tweet via Hao's account?\nFor your own safety, please don't put anything strange, or she will kick you..I promise.\nIf you chose this feature by mistake, just simply press \"Ctrl + C\" and run me again.\n",
+			message: "What do you want to tweet via Sunny's account?\nFor your own safety, please don't put anything strange, or she will kick you..I promise.\nIf you chose this feature by mistake, just simply press \"Ctrl + C\" and run me again.\n",
 			name: "post"
 		}
 	]).then(function(res) {
@@ -169,8 +168,8 @@ function tweet() {
 				console.log(error);
 			}
 			console.log("\n-------------------------------------------------\n");
-			console.log("Tweet \"" + res.post + "\" has been posted by @Huaiyin_xie already!");
-			console.log("Go to https://twitter.com/Huaiyin_xie or choose \"View my owner\'s tweets\" below to check it.\n")
+			console.log("Tweet \"" + res.post + "\" has been posted by @huaiyin_xie already!");
+			console.log("Go to https://twitter.com/huaiyin_xie or choose \"View my owner\'s tweets\" below to check it.\n")
 			whatelse();
 		})
 	})
@@ -222,7 +221,7 @@ function spotifyasong() {
 			if (res.song === "") {
 				spotify.search({type: "track", query: "The Sign"}, function(err, data) {
 					console.log("\n-------------------------------------------------\n");
-					console.log("Dear user, though you did not input anything valid, I, smart Liri, still have recommendation for you.\nActually neither I or my owner Hao have seen it before, this is her instructor's mandatory recommendation.\nHao said if one day she becomes an insturctor,\nshe'll use the same way to recommend whatever she likes to students.");
+					console.log("Dear user, though you did not input anything valid, I, smart Liri, still have recommendation for you.\nActually neither I or my owner Sunny have seen it before, this is her instructor's mandatory recommendation.\nSunny said if one day she becomes an insturctor,\nshe'll use the same way to recommend whatever she likes to students.");
 					console.log("\n-------------------------------------------------\n");
 					console.log("Artist(s): " + data.tracks.items[5].artists[0].name);
 					console.log("Title: " + data.tracks.items[5].name);
@@ -272,7 +271,7 @@ function moviethis() {
 				request("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 					var res = JSON.parse(body);
 					console.log("\n-------------------------------------------------");
-					console.log("\nDear user, though you did not input anything valid, I, smart Liri, still have recommendation for you.\nActually neither I or my owner Hao have seen it before, this is her instructor's mandatory recommendation.\nHao said if one day she becomes an insturctor,\nshe'll use the same way to recommend whatever she likes to students.")
+					console.log("\nDear user, though you did not input anything valid, I, smart Liri, still have recommendation for you.\nActually neither I or my owner Sunny have seen it before, this is her instructor's mandatory recommendation.\nSunny said if one day she becomes an insturctor,\nshe'll use the same way to recommend whatever she likes to students.")
 					console.log("\n-------------------------------------------------\n");
 					console.log("Title: " + res.Title);
 					console.log("Year: " + res.Year);
@@ -322,7 +321,7 @@ function dowhat() {
 					}
 					var random = Math.floor(Math.random() * 20);
 					console.log("\n-------------------------------------------------");
-					console.log("\nDear user, thanks for trying this new feature.\nWhatever will be popped up are Hao's beloved songs or movies.\nNow spotifying: " + array1[index])
+					console.log("\nDear user, thanks for trying this new feature.\nWhatever will be popped up are Sunny's beloved songs or movies.\nNow spotifying: " + array1[index])
 					console.log("\n-------------------------------------------------\n");
 					console.log("Artist(s): " + data.tracks.items[random].artists[0].name);
 					console.log("Title: " + data.tracks.items[random].name);
@@ -342,7 +341,7 @@ function dowhat() {
 				request("http://www.omdbapi.com/?t=" + array1[index] + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 					var resp = JSON.parse(body);
 					console.log("\n-------------------------------------------------");
-					console.log("\nDear user, thanks for trying this new feature.\nWhatever will be popped up are Hao's beloved songs or movies.\nNow movieing: " + array1[index])
+					console.log("\nDear user, thanks for trying this new feature.\nWhatever will be popped up are Sunny's beloved songs or movies.\nNow movieing: " + array1[index])
 					console.log("\n-------------------------------------------------\n");
 					console.log("Title: " + resp.Title);
 					console.log("Year: " + resp.Year);
